@@ -14,6 +14,8 @@ import (
 func main() {
 	confChannel := flag.String("channel", "", "this will overwrite Wide.Channel if specified")
 
+	flag.Parse()
+
 	loadConf(*confChannel)
 	loadLocales()
 	InitDocumentHolder()
