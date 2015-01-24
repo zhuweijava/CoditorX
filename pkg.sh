@@ -5,7 +5,7 @@
 # Command: 
 #  ./pkg.sh ${version} ${target}
 # Example:
-#  ./pkg.sh 1.0.1 /home/daniel/1.0.1/
+#  ./pkg.sh 1.0.0 /home/daniel/CoditorX
 
 ver=$1
 target=$2
