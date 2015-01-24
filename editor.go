@@ -46,7 +46,7 @@ func editorWSHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		logger.Trace(input)
+		//logger.Trace(input)
 
 		docName := input["docName"].(string)
 		docName = filepath.Clean(docName)

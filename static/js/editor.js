@@ -47,9 +47,6 @@ var editor = {
 
         editor.codemirror.setSize('100%', $(".main").height() - $(".menu").height());
         editor.codemirror.on('changes', function (cm, changes) {
-            // console.log(cm.getValue());
-            console.log(changes);
-
             if (changes && changes[0] && "setValue" === changes[0].origin) {
                 return;
             }
