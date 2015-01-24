@@ -32,7 +32,7 @@ func Test_write(t *testing.T) {
 	}
 	log.close()
 	end := time.Now().Unix()
-	t.Logf("write 100000 use second: %d.\n", end-begin)
+	t.Logf("write 100000 use second: %d", end-begin)
 }
 
 func Test_read(t *testing.T) {
@@ -44,11 +44,11 @@ func Test_read(t *testing.T) {
 		for i := 0; i < 10; i++ {
 			version, data, err := blr.next()
 			if err != nil {
-				t.Logf("err is %v.\n", err)
+				t.Logf("err is %v", err)
 				break
 			} else {
 				t.Log(version)
-				t.Logf("length: %d, %v\n", len(data), data)
+				t.Logf("length: %d, %v", len(data), data)
 			}
 		}
 	}
@@ -72,7 +72,7 @@ func Test_walk(t *testing.T) {
 		fmt.Println(err)
 	}
 	end := time.Now().Unix()
-	t.Logf("walk use second: %d.\n", end-begin)
+	t.Logf("walk use second: %d", end-begin)
 }
 
 func Test_del(t *testing.T) {
