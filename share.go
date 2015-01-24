@@ -147,11 +147,11 @@ func shareHandler(w http.ResponseWriter, r *http.Request) {
 		share.Owner = user.Username
 		share.DocName = fileName
 		share.ShareType = VIEWABLE
-		logger.Debugf("%s cancle share file %s to %v.\n", user.Username, fileName, delEditors)
+		logger.Debugf("%s cancle share file %s to %v", user.Username, fileName, delEditors)
 		for _, delEditor := range delEditors {
 			checkAndDel(delEditor, share)
 		}
-		logger.Debugf("%s cancle share file %s to %v.\n", user.Username, fileName, delViewers)
+		logger.Debugf("%s cancle share file %s to %v", user.Username, fileName, delViewers)
 		for _, delViewer := range delViewers {
 			checkAndDel(delViewer, share)
 		}
@@ -162,14 +162,14 @@ func shareHandler(w http.ResponseWriter, r *http.Request) {
 			data["msg"] = err.Error()
 			return
 		}
-		logger.Debugf("%s share file %s to %v.\n", user.Username, fileName, editors)
+		logger.Debugf("%s share file %s to %v", user.Username, fileName, editors)
 		err = doc.setEditors(editors, user.Username)
 		if err != nil {
 			data["succ"] = false
 			data["msg"] = err.Error()
 			return
 		}
-		logger.Debugf("%s share file %s to %v.\n", user.Username, fileName, viewers)
+		logger.Debugf("%s share file %s to %v", user.Username, fileName, viewers)
 		err = doc.setViewers(viewers, user.Username)
 		if err != nil {
 			data["succ"] = false
@@ -185,14 +185,14 @@ func checkAndSave(user string, users []string, share *Share) ([]string, error) {
 		file, err := os.Open(shareFilePath)
 		if err != nil {
 			data = []byte{}
-			logger.Errorf("share file error, %v.\n", err)
+			logger.Errorf("share file error, %v", err)
 			return data
 		}
 		data, err = ioutil.ReadAll(file)
 		defer file.Close()
 		if err != nil {
 			data = []byte{}
-			logger.Errorf("share file error, %v.\n", err)
+			logger.Errorf("share file error, %v", err)
 		}
 		return data
 	}(shareFilePath)
@@ -201,7 +201,7 @@ func checkAndSave(user string, users []string, share *Share) ([]string, error) {
 		// not empty!
 		err := json.Unmarshal(data, &shareList)
 		if err != nil {
-			logger.Errorf("share file error, %v.\n", err)
+			logger.Errorf("share file error, %v", err)
 			return nil, err
 		}
 	}
@@ -219,12 +219,12 @@ func checkAndSave(user string, users []string, share *Share) ([]string, error) {
 	}
 	data, err := json.MarshalIndent(shareList, "", "    ")
 	if err != nil {
-		logger.Errorf("share file error, %v.\n", err)
+		logger.Errorf("share file error, %v", err)
 		return nil, err
 	}
 	err = ioutil.WriteFile(shareFilePath, data, 0644)
 	if err != nil {
-		logger.Errorf("share file error, %v.\n", err)
+		logger.Errorf("share file error, %v", err)
 		return nil, err
 	}
 	users = append(users, user)
@@ -237,14 +237,14 @@ func checkAndDel(user string, share *Share) error {
 		file, err := os.Open(shareFilePath)
 		if err != nil {
 			data = []byte{}
-			logger.Errorf("share file error, %v.\n", err)
+			logger.Errorf("share file error, %v", err)
 			return data
 		}
 		data, err = ioutil.ReadAll(file)
 		defer file.Close()
 		if err != nil {
 			data = []byte{}
-			logger.Errorf("share file error, %v.\n", err)
+			logger.Errorf("share file error, %v", err)
 		}
 		return data
 	}(shareFilePath)
@@ -256,7 +256,7 @@ func checkAndDel(user string, share *Share) error {
 		// not empty!
 		err := json.Unmarshal(data, &shareList)
 		if err != nil {
-			logger.Errorf("share file error, %v.\n", err)
+			logger.Errorf("share file error, %v", err)
 			return err
 		}
 	}
@@ -274,12 +274,12 @@ func checkAndDel(user string, share *Share) error {
 	}
 	data, err := json.Marshal(shareList)
 	if err != nil {
-		logger.Errorf("share file error, %v.\n", err)
+		logger.Errorf("share file error, %v", err)
 		return err
 	}
 	err = ioutil.WriteFile(shareFilePath, data, 0644)
 	if err != nil {
-		logger.Errorf("share file error, %v.\n", err)
+		logger.Errorf("share file error, %v", err)
 	}
 	return err
 }
@@ -290,14 +290,14 @@ func checkAndUpdate(user string, oldShare, newShare *Share) error {
 		file, err := os.Open(shareFilePath)
 		if err != nil {
 			data = []byte{}
-			logger.Errorf("share file error, %v.\n", err)
+			logger.Errorf("share file error, %v", err)
 			return data
 		}
 		data, err = ioutil.ReadAll(file)
 		defer file.Close()
 		if err != nil {
 			data = []byte{}
-			logger.Errorf("share file error, %v.\n", err)
+			logger.Errorf("share file error, %v", err)
 		}
 		return data
 	}(shareFilePath)
@@ -309,7 +309,7 @@ func checkAndUpdate(user string, oldShare, newShare *Share) error {
 		// not empty!
 		err := json.Unmarshal(data, &shareList)
 		if err != nil {
-			logger.Errorf("share file error, %v.\n", err)
+			logger.Errorf("share file error, %v", err)
 			return err
 		}
 	}
@@ -328,12 +328,12 @@ func checkAndUpdate(user string, oldShare, newShare *Share) error {
 	}
 	data, err := json.Marshal(shareList)
 	if err != nil {
-		logger.Errorf("share file error, %v.\n", err)
+		logger.Errorf("share file error, %v", err)
 		return err
 	}
 	err = ioutil.WriteFile(shareFilePath, data, 0644)
 	if err != nil {
-		logger.Errorf("share file error, %v.\n", err)
+		logger.Errorf("share file error, %v", err)
 	}
 	return err
 }
@@ -359,7 +359,7 @@ func shareListHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data["shares"] = shareList
-	logger.Infof("shares is %v.\n", shareList)
+	logger.Info("shares is ", shareList)
 }
 
 func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
