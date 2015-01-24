@@ -3,9 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>{{.i18n.coditor}}</title>
-        <link rel="stylesheet" href="{{.conf.StaticServer}}/static/js/lib/quill/quill.base.css?{{.conf.StaticResourceVersion}}">
-        <link rel="stylesheet" href="{{.conf.StaticServer}}/static/js/lib/quill/quill.snow.css?{{.conf.StaticResourceVersion}}">
 
+        <link rel="stylesheet" href="{{.conf.StaticServer}}/static/js/lib/codemirror-4.12/codemirror.css">
         <link rel="stylesheet" href="{{.conf.StaticServer}}/static/css/base.css?{{.conf.StaticResourceVersion}}">
         <link rel="stylesheet" href="{{.conf.StaticServer}}/static/css/dialog.css?{{.conf.StaticResourceVersion}}">
         <link rel="stylesheet" href="{{.conf.StaticServer}}/static/css/coditor.css?{{.conf.StaticResourceVersion}}">
@@ -100,10 +99,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="editor">
-                    <div id="quillToolbar"></div>
-                    <div id="quillEditor"></div>
-                </div>
+                <textarea id="editor"></textarea>
                 <div class="preview"></div>
             </div>
         </div>
@@ -129,7 +125,6 @@
                     var color = {{.session.Color}};
                     var i18n = {{.i18n}};
                     var workspace = {{.workspace}};
-                    
                     function newRequest() {
                     return {
                     sid: coditor.sessionId
@@ -139,8 +134,10 @@
 
         <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/lib/jquery-2.1.1.min.js?{{.conf.StaticResourceVersion}}"></script>
         <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/lib/reconnecting-websocket.js?{{.conf.StaticResourceVersion}}"></script>
-        <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/lib/quill/quill.min.js?{{.conf.StaticResourceVersion}}"></script>
-        <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/lib/diff/diff_match_patch_uncompressed.js?{{.conf.StaticResourceVersion}}"></script>
+        <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/lib/codemirror-4.12/codemirror.js"></script>
+        <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/lib/codemirror-4.12/mode/meta.js"></script>
+        <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/lib/codemirror-4.12/mode/markdown/markdown.js"></script>
+        <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/lib/diff/diff_match_patch.js?{{.conf.StaticResourceVersion}}"></script>
         <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/dialog.js?{{.conf.StaticResourceVersion}}"></script>
         <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/tabs.js?{{.conf.StaticResourceVersion}}"></script>
         <script type="text/javascript" src="{{.conf.StaticServer}}/static/js/menu.js?{{.conf.StaticResourceVersion}}"></script>
