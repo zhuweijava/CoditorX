@@ -26,7 +26,8 @@ var menu = {
 
         $(".share-panel .font-ico").click(function () {
             var key = $(this).attr('class').split('-')[2];
-            var url = "https://wide.b3log.org", pic = 'https://wide.b3log.org/static/images/wide-logo.png';
+            //var url = "https://wide.b3log.org", pic = 'https://wide.b3log.org/static/images/wide-logo.png';
+            var url = "https://github.com/gophergala/CoditorX", pic = 'https://wide.b3log.org/static/images/wide-logo.png';
             var urls = {};
             urls.email = "mailto:?subject=" + $('title').text()
                     + "&body=" + $('meta[name=description]').attr('content') + ' ' + url;
