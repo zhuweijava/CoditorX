@@ -90,7 +90,7 @@ var side = {
 
                     return;
                 }).dblclick(function () {
-                    side.open(coditor.workspace + '\\' + $.trim($(this).text()));
+                    side.open(coditor.workspace + coditor.pathSeparator + $.trim($(this).text()));
                 });
             }
         });
@@ -185,7 +185,7 @@ var side = {
             },
             "ok": function () {
                 var request = newRequest();
-                request["fileName"] = coditor.workspace + '\\' + $.trim($('#files li.current').text());
+                request["fileName"] = coditor.workspace + coditor.pathSeparator + $.trim($('#files li.current').text());
                 request["editors"] = '';
                 request["isPublic"] = 0;
                 request["viewers"] = '';
@@ -246,7 +246,7 @@ var side = {
                 "width": 600,
                 "title": 'Share',
                 "afterOpen": function () {
-                    $("#dialogShare .fileName").val(coditor.workspace + "\\" + $.trim($("#files li.current").text()));
+                    $("#dialogShare .fileName").val(coditor.workspace + coditor.pathSeparator + $.trim($("#files li.current").text()));
                     $("#dialogShare").find('input[type=checkbox]').prop('checked', false);
                     $("#dialogShare").find('.viewers').show();
                 },

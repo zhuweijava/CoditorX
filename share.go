@@ -85,7 +85,7 @@ func shareHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// only get the file name
-		index := strings.LastIndex(fileName, "/")
+		index := strings.LastIndex(fileName, string(os.PathSeparator))
 		if index > -1 {
 			fileName = fileName[index+1:]
 		}
@@ -176,7 +176,8 @@ func shareHandler(w http.ResponseWriter, r *http.Request) {
 			data["msg"] = err.Error()
 			return
 		}
-
+		// to flush
+		doc.metaData.save()
 	}
 }
 
@@ -375,6 +376,8 @@ func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user := userSession.(*User)
+
 	var args map[string]interface{}
 	if err := json.NewDecoder(r.Body).Decode(&args); err != nil {
 		logger.Error(err)
@@ -389,7 +392,7 @@ func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
 		data["msg"] = "docName can not be null!"
 		return
 	}
-	filePath := filepath.Join(conf.Workspace, docName.(string))
+	filePath := filepath.Join(user.getWorkspace(), docName.(string))
 	dmd, err := newDocumentMetaData(filePath)
 	if err != nil {
 		logger.Error(err)
