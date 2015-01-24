@@ -1,6 +1,8 @@
 {
     "owner": "admin",
-    "editors": [],
+    "editors": [
+        "user1"
+    ],
     "viewers": [],
     "isPublic": 0,
     "version": 0
