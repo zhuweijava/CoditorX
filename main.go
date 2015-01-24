@@ -41,6 +41,7 @@ func main() {
 	http.HandleFunc("/shares", shareListHandler)
 
 	http.HandleFunc("/doc/open", openDocHandler)
+	http.HandleFunc("/doc/listCursors", listCursorsHandler)
 	http.HandleFunc("/doc/setCursor", setCursorHandler)
 	http.HandleFunc("/doc/commit", commitDocHandler)
 	http.HandleFunc("/doc/fetch", fetchDocHandler)

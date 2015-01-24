@@ -54,7 +54,7 @@ func editorWSHandler(w http.ResponseWriter, r *http.Request) {
 		doc := documentHolder.getDoc(docName)
 
 		for _, cursor := range doc.cursors {
-			if cursor.sid == sid { // skip the current session itself
+			if cursor.Sid == sid { // skip the current session itself
 				continue
 			}
 
@@ -63,7 +63,7 @@ func editorWSHandler(w http.ResponseWriter, r *http.Request) {
 			ret = map[string]interface{}{"content": content, "cmd": "changes",
 				"docName": docName, "user": input["user"], "cursor": input["cursor"], "color": input["color"]}
 
-			if err := editorWS[cursor.sid].WriteJSON(&ret); err != nil {
+			if err := editorWS[cursor.Sid].WriteJSON(&ret); err != nil {
 				logger.Error("[Editor Channel] ERROR: " + err.Error())
 
 				return

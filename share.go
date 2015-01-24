@@ -374,8 +374,6 @@ func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := userSession.(*User)
-
 	var args map[string]interface{}
 	if err := json.NewDecoder(r.Body).Decode(&args); err != nil {
 		logger.Error(err)
@@ -390,7 +388,7 @@ func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
 		data["msg"] = "docName can not be null!"
 		return
 	}
-	filePath := filepath.Join(user.getWorkspace(), docName.(string))
+	filePath := filepath.Join(conf.Workspace, docName.(string))
 	dmd, err := newDocumentMetaData(filePath)
 	if err != nil {
 		logger.Error(err)

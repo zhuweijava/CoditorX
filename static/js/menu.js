@@ -62,18 +62,28 @@ var menu = {
         });
     },
     _initCurrentEditors: function () {
-        var request = newRequest();
-        request.docName = coditor.workspace + '';
-        $.ajax({
-            type: 'POST',
-            url: '/shareInfo',
-            data: JSON.stringify(request),
-            dataType: "json",
-            success: function (data) {
-                if (!data.succ) {
-                    return false;
+        // TODO maybe here can init later by other way
+        setTimeout(function(){
+            var request = newRequest();
+            // FIXME: hard coding too
+            var docName = "workspaces/admin/workspace/README.md";
+            request.docName = docName
+            $.ajax({
+                type: 'POST',
+                url: '/doc/listCursors',
+                data: JSON.stringify(request),
+                dataType: "json",
+                success: function (data) {
+                    if (!data.succ) {
+                        return false;
+                    }
+                    for (var i=0;i<data.cursors.length;i++) {
+                        var cursor = data.cursors[i];
+                        var imgStr = '<img class="gravatar" onerror="this.src=\'/static/images/user-thumbnail.png\'" src="https://secure.gravatar.com/avatar/'+cursor.md5Email+'?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png" title="'+cursor.name+'"/>'
+                        $(".fn-left").append(imgStr);
+                    }
                 }
-            }
-        });
+            });
+        }, 1000)
     }
 };
