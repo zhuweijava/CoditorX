@@ -11,10 +11,10 @@ var editor = {
         var docName = "workspaces/admin/workspace/README.md";
         var doc = OpenDoc(docName);
 
-        var textArea = document.getElementById("editor");
-        textArea.value = doc.content;
+        var $editor = $("#editor");
+        $editor.val(doc.content);
 
-        editor.codemirror = CodeMirror.fromTextArea(textArea, {
+        editor.codemirror = CodeMirror.fromTextArea($editor[0], {
             autofocus: true,
             lineNumbers: true,
             theme: "blackboard"
@@ -24,7 +24,7 @@ var editor = {
         if (mode) {
             editor.codemirror.setOption("mode", mode.mode);
         }
-        
+
         var request = newRequest();
         request.docName = docName;
         request.offset = 0;
@@ -42,7 +42,7 @@ var editor = {
             }
         });
 
-
+        editor.codemirror.setSize('100%', $(".main").height() - $(".menu").height());
         editor.codemirror.on('changes', function (cm, changes) {
             // console.log(cm.getValue());
             console.log(changes);
