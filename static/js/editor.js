@@ -1,6 +1,7 @@
 var editor = {
     channel: undefined,
     codemirror: undefined,
+    currentFileName: undefined,
     init: function () {
         this._initWS();
         this._initCM();
@@ -13,6 +14,8 @@ var editor = {
 
         var $editor = $("#editor");
         $editor.val(doc.content);
+        
+        editor.currentFileName = docName;
 
         editor.codemirror = CodeMirror.fromTextArea($editor[0], {
             autofocus: true,
