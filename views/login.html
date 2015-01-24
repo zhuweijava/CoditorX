@@ -2,10 +2,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>codeitor</title>
+        <title>CoditorX - {{.i18n.coditor_title}}</title>
         
         <meta name="keywords" content="Golang,B3log, Login"/>
-        <meta name="description" content="A Web-based IDE for Teams using Golang, do your development anytime, anywhere."/>
+        <meta name="description" content="CoditorX is an in-browser text editor for multiple players collaborating."/>
         <meta name="author" content="B3log">
         
         <link rel="stylesheet" href="{{.conf.StaticServer}}/static/css/base.css?{{.conf.StaticResourceVersion}}">
@@ -16,7 +16,7 @@
         <div class="header">
             <div class="wrapper fn-clear">
                 <a href="/login" rel="login">
-                    <img title="codeitor" src="{{.conf.StaticServer}}/static/images/logo-bg.png"
+                    <img title="CoditorX" src="{{.conf.StaticServer}}/static/images/logo-bg.png"
                          class="logo"/></a>
                 <ul class="fn-right">
                     <li><button class="btn" onclick="window.location.href = '/signup'">{{.i18n.sign_up}}</button></li>
@@ -26,7 +26,8 @@
         <div class="content">
             <div class="wrapper fn-clear">
                 <div class="fn-left">
-                    <h2>Hello, World</h2>
+                    <h2>Edit document</h2>
+                    <h2>better, together.</h2>
                     <h3>Collaborative Writing on the web way.</h3>
                 </div>
                 <div class="form fn-right">

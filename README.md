@@ -2,7 +2,7 @@
 
 ## Introduction
 
-CoditorX is an online text editor in browser for multiple players collaborating.
+CoditorX is an in-browser text editor for multiple players collaborating.
 
 ## Features
 
