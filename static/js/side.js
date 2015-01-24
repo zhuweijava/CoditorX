@@ -163,6 +163,7 @@ var side = {
             }
         });
 
+        // TODO:
         $("#dialogUnshareConfirm").dialog({
             "modal": true,
             "height": 36,
@@ -216,6 +217,7 @@ var side = {
             }
         });
 
+
         $("#dialogRemoveConfirm").dialog({
             "modal": true,
             "height": 36,
@@ -224,46 +226,24 @@ var side = {
             "okText": 'Delete',
             "cancelText": 'Cancel',
             "afterOpen": function () {
-                $("#dialogRemoveConfirm > b").html('"FileName"');
+                $("#dialogRemoveConfirm > b").html('"' + $.trim($('#files li.current').text()) + '"');
             },
             "ok": function () {
-                var request = newWideRequest();
-                request.path = wide.curNode.path;
+                var request = newRequest();
+                request.name = $.trim($('#files li.current').text());
 
                 $.ajax({
                     type: 'POST',
-                    url: config.context + '/file/remove',
+                    url: '/file/del',
                     data: JSON.stringify(request),
                     dataType: "json",
                     success: function (data) {
                         if (!data.succ) {
-                            $("#dialogRemoveConfirm").dialog("close");
-                            bottomGroup.tabs.setCurrent("notification");
-                            windows.flowBottom();
-                            $(".bottom-window-group .notification").focus();
                             return false;
                         }
 
+                        $('#files li.current').remove();
                         $("#dialogRemoveConfirm").dialog("close");
-                        tree.fileTree.removeNode(wide.curNode);
-
-                        if (!tree.isDir()) {
-                            // 是文件的话，查看 editor 中是否被打开，如打开则移除
-                            for (var i = 0, ii = editors.data.length; i < ii; i++) {
-                                if (editors.data[i].id === wide.curNode.tId) {
-                                    $(".edit-panel .tabs > div[data-index=" + wide.curNode.tId + "]").find(".ico-close").click();
-                                    break;
-                                }
-                            }
-                        } else {
-                            for (var i = 0, ii = editors.data.length; i < ii; i++) {
-                                if (tree.isParents(editors.data[i].id, wide.curNode.tId)) {
-                                    $(".edit-panel .tabs > div[data-index=" + editors.data[i].id + "]").find(".ico-close").click();
-                                    i--;
-                                    ii--;
-                                }
-                            }
-                        }
                     }
                 });
             }
@@ -280,13 +260,14 @@ var side = {
                     $("#dialogShare").find('input[type=checkbox]').prop('checked', false);
                     $("#dialogShare").find('.viewers').show();
                 },
-                "ok": function(){
+                "ok": function () {
                     var fileName = $("#dialogShare .fileName").val();
                     var editors = $("#dialogShare .editors").val();
                     var isPublic = 0;
-                    if($("#dialogShare .isPublic").attr("checked")==true){
+                    if ($("#dialogShare .isPublic").attr("checked") === true) {
                         isPublic = 1;
-                    };
+                    }
+                    ;
                     var viewers = $("#dialogShare .viewers").val();
                     var request = newRequest();
                     request["fileName"] = fileName;
@@ -302,8 +283,8 @@ var side = {
                         success: function (data) {
 
                         }
-                    })
-                    return true
+                    });
+                    return true;
                 }
             });
 
@@ -325,57 +306,27 @@ var side = {
             "cancelText": 'Cancel',
             "afterOpen": function () {
                 $("#dialogRenamePrompt").closest(".dialog-main").find(".dialog-footer > button:eq(0)").prop("disabled", true);
-                $("#dialogRenamePrompt > input").val('FileName').select().focus();
+                $("#dialogRenamePrompt > input").val($.trim($('#files li.current').text())).select().focus();
             },
             "ok": function () {
                 var name = $("#dialogRenamePrompt > input").val(),
-                        request = newWideRequest();
+                        request = newRequest();
 
-                request.oldPath = wide.curNode.path;
-
-                request.newPath = wide.curNode.path.substring(0,
-                        wide.curNode.path.lastIndexOf(config.pathSeparator))
-                        + config.pathSeparator + name;
+                request.newName = name;
+                request.oldName = $.trim($('#files li.current').text());
 
                 $.ajax({
                     type: 'POST',
-                    url: config.context + '/file/rename',
+                    url: '/file/rename',
                     data: JSON.stringify(request),
                     dataType: "json",
                     success: function (data) {
                         if (!data.succ) {
-                            $("#dialogRenamePrompt").dialog("close");
-                            bottomGroup.tabs.setCurrent("notification");
-                            windows.flowBottom();
-                            $(".bottom-window-group .notification").focus();
                             return false;
                         }
 
                         $("#dialogRenamePrompt").dialog("close");
-
-                        // update tree node
-                        var suffixIndex = name.lastIndexOf('.'),
-                                iconSkin = wide.getClassBySuffix(name.substr(suffixIndex + 1));
-                        wide.curNode.name = name;
-                        wide.curNode.title = request.newPath;
-                        wide.curNode.path = request.newPath;
-                        wide.curNode.iconSkin = iconSkin;
-                        tree.fileTree.updateNode(wide.curNode);
-
-                        // update open editor tab name
-                        for (var i = 0, ii = editors.data.length; i < ii; i++) {
-                            if (wide.curNode.tId === editors.data[i].id) {
-                                var info = CodeMirror.findModeByExtension(name.substr(suffixIndex + 1));
-                                if (info) {
-                                    editors.data[i].editor.setOption("mode", info.mime);
-                                }
-
-                                var $currentSpan = $(".edit-panel .tabs > div[data-index=" + wide.curNode.tId + "] > span:eq(0)");
-                                $currentSpan.attr("title", request.newPath);
-                                $currentSpan.html('<span class="' + iconSkin + 'ico"></span>' + wide.curNode.name);
-                                break;
-                            }
-                        }
+                        side._initFileList();
                     }
                 });
             }
