@@ -1,1 +1,7 @@
-[{"owner":"admin","docName":"README.txt","shareType":0}]
+[
+    {
+        "owner": "admin",
+        "docName": "workspaces\\admin\\workspace\\README.md",
+        "shareType": 1
+    }
+]
