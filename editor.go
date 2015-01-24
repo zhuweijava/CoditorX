@@ -58,24 +58,10 @@ func editorWSHandler(w http.ResponseWriter, r *http.Request) {
 				continue
 			}
 
-			delta := input["delta"].(map[string]interface{})
-			ops := delta["ops"].([]interface{})
+			content := input["content"].(string)
 
-			offset := float64(0)
-			for _, op := range ops {
-				ope := op.(map[string]interface{})
-
-				if retain, ok := ope["retain"]; ok {
-					offset = retain.(float64)
-				}
-
-				if _, ok := ope["insert"]; ok {
-					offset = offset + 1
-				}
-			}
-
-			ret = map[string]interface{}{"output": input["delta"], "cmd": "text-change",
-				"docName": docName, "user": input["user"].(string), "offset": offset, "color": input["color"].(string)}
+			ret = map[string]interface{}{"content": content, "cmd": "changes",
+				"docName": docName, "user": input["user"], "cursor": input["cursor"], "color": input["color"]}
 
 			if err := editorWS[cursor.sid].WriteJSON(&ret); err != nil {
 				logger.Error("[Editor Channel] ERROR: " + err.Error())
