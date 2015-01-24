@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"math/rand"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 )
@@ -69,7 +70,10 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		sid := strconv.Itoa(rand.Int())
 		cSession := coditorSessions.new(httpSession, sid)
 		user := userSession.(*User)
-		model := map[string]interface{}{"session": cSession, "workspace": user.getWorkspace()}
+		model := map[string]interface{}{"session": cSession, "workspace": user.getWorkspace(),
+			"pathSeparator": string(os.PathSeparator)}
+		model["currentuser"] = user
+		model["gravatar"] = toMd5(user.Email)
 
 		toHtml(w, "coditor.html", model, user.Locale)
 

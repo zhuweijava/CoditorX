@@ -13,6 +13,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"time"
+	"crypto/md5"
 )
 
 const (
@@ -218,6 +219,14 @@ func signUp(user *User, w http.ResponseWriter, r *http.Request) string {
 
 func tosha1(data string) string {
 	t := sha1.New()
+	io.WriteString(t, data)
+
+	return fmt.Sprintf("%x", t.Sum(nil))
+}
+
+
+func toMd5(data string) string {
+	t := md5.New()
 	io.WriteString(t, data)
 
 	return fmt.Sprintf("%x", t.Sum(nil))

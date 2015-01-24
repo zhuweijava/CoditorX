@@ -17,6 +17,7 @@
 var menu = {
     init: function () {
         this._initShare();
+        this._initCurrentEditors();
     },
     _initShare: function () {
         $(".menu .ico-share").hover(function () {
@@ -25,7 +26,8 @@ var menu = {
 
         $(".share-panel .font-ico").click(function () {
             var key = $(this).attr('class').split('-')[2];
-            var url = "https://wide.b3log.org", pic = 'https://wide.b3log.org/static/images/wide-logo.png';
+            //var url = "https://wide.b3log.org", pic = 'https://wide.b3log.org/static/images/wide-logo.png';
+            var url = "https://github.com/gophergala/CoditorX", pic = 'https://wide.b3log.org/static/images/wide-logo.png';
             var urls = {};
             urls.email = "mailto:?subject=" + $('title').text()
                     + "&body=" + $('meta[name=description]').attr('content') + ' ' + url;
@@ -45,12 +47,11 @@ var menu = {
             window.open(urls[key], "_blank", "top=100,left=200,width=648,height=618");
         });
     },
-
     exit: function () {
         var request = newRequest();
         $.ajax({
             type: 'POST',
-            url:  '/logout',
+            url: '/logout',
             data: JSON.stringify(request),
             dataType: "json",
             success: function (data) {
@@ -59,6 +60,20 @@ var menu = {
                 }
             }
         });
+    },
+    _initCurrentEditors: function () {
+        var request = newRequest();
+        request.docName = coditor.workspace + '';
+        $.ajax({
+            type: 'POST',
+            url: '/shareInfo',
+            data: JSON.stringify(request),
+            dataType: "json",
+            success: function (data) {
+                if (!data.succ) {
+                    return false;
+                }
+            }
+        });
     }
-
 };

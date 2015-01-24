@@ -47,6 +47,7 @@ var side = {
         $.ajax({
             url: "/files",
             type: "POST",
+            cache: false,
             data: JSON.stringify(request),
             success: function (data) {
                 if (!data.succ) {
@@ -184,7 +185,7 @@ var side = {
             },
             "ok": function () {
                 var request = newRequest();
-                request["fileName"] = $("#dialogShare .fileName").val();
+                request["fileName"] = coditor.workspace + '\\' + $.trim($('#files li.current').text());
                 request["editors"] = '';
                 request["isPublic"] = 0;
                 request["viewers"] = '';
@@ -390,6 +391,7 @@ var side = {
                     return false;
                 }
                 editor.codemirror.doc.setValue(data.doc.content);
+                editor.currentFileName = fileName;
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 // TODO

@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="description" content="Collaborative Writing on the web way.">
         <title>{{.i18n.coditor}}</title>
 
         <link rel="stylesheet" href="{{.conf.StaticServer}}/static/css/base.css?{{.conf.StaticResourceVersion}}">
@@ -83,13 +84,12 @@
                     </div>
                     <div class="fn-right">
                         <span class="font-ico ico-share" title="share"></span> &nbsp;
-                        <span onclick="window.open('https://github.com/b3log/coditor')"
+                        <span onclick="window.open('https://github.com/gophergala/CoditorX')"
                               class="font-ico ico-github"  title="github"></span>&nbsp;
                         <span class="font-ico ico-about" title="help"></span> &nbsp;
                         <img class="gravatar"
-                             onerror="this.src='/static/images/user-thumbnail.png'"
-                             src="https://secure.gravatar.com/avatar/{{.user.Gravatar}}?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png" 
-                             title="{{.user.Name}}">
+                             src="https://secure.gravatar.com/avatar/{{.gravatar}}?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png"
+                             title="{{.currentuser.Username}}">
                         <span class="font-ico ico-signout" title="sign out" onclick="menu.exit();">  </span>
                         <div class="share-panel frame">
                             <span title="Email" class="font-ico ico-email"></span>
@@ -127,6 +127,7 @@
                     var color = {{.session.Color}};
                     var i18n = {{.i18n}};
                     var workspace = {{.workspace}};
+                    var pathSeparator = {{.pathSeparator}};
                     function newRequest() {
                     return {
                     sid: coditor.sessionId

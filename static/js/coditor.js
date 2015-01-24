@@ -5,6 +5,7 @@ var coditor = {
     color: undefined,
     workspace: undefined,
     i18n: undefined,
+    pathSeparator: undefined,
     init: function () {
         // 点击隐藏弹出层
         $("body").bind("mouseup", function (event) {
@@ -22,6 +23,7 @@ var coditor = {
         this.color = color;
         this.i18n = i18n;
         this.workspace = workspace;
+        this.pathSeparator = pathSeparator;
     },
     getClassBySuffix: function (suffix) {
         var iconSkin = "ico-file-other";

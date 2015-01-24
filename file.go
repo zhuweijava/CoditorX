@@ -43,7 +43,19 @@ func fileTreeHandler(w http.ResponseWriter, r *http.Request) {
 			t = t[1:]
 		}
 
-		f := &file{ID: strconv.Itoa(i), IsShare: false, Name: fname, Type: t}
+		isShare := false
+		fileRelPath := filepath.Join(user.getWorkspace(), fname)
+		dmd, err := newDocumentMetaData(fileRelPath)
+		if err != nil {
+			// TODO how to handler this err?
+			logger.Error(err)
+		} else {
+			if dmd.IsPublic == 1 || len(dmd.Editors) > 0 || len(dmd.Viewers) > 0 {
+				isShare = true
+			}
+		}
+
+		f := &file{ID: strconv.Itoa(i), IsShare: isShare, Name: fname, Type: t}
 
 		files = append(files, f)
 	}
