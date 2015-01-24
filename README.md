@@ -27,7 +27,7 @@ CoditorX is an online text editor in browser for multiple players collaborating.
 
 ### Frontend
 
-* [Quill](https://github.com/quilljs/quill) (web editor)
+* [CodeMirror](https://github.com/codemirror/codemirror) (web editor)
 * [jQuery](http://jquery.com) (utilities)
 
 ### Backend
