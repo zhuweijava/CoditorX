@@ -70,6 +70,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		cSession := coditorSessions.new(httpSession, sid)
 		user := userSession.(*User)
 		model := map[string]interface{}{"session": cSession, "workspace": user.getWorkspace()}
+		model["currentuser"]=user;
+		model["gravatar"]=toMd5(user.Email);
 
 		toHtml(w, "coditor.html", model, user.Locale)
 
