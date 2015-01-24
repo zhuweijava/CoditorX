@@ -1,6 +1,6 @@
 {
     "IP": "${ip}",
-    "Port": "8080",
+    "Port": "9090",
     "Context": "",
     "Server": "{IP}:{Port}",
     "StaticServer": "",
