@@ -86,7 +86,7 @@ func newDocumentMetaData(fileName string) (*DocumentMetaData, error) {
 	}
 	var dmd DocumentMetaData
 	if len(fileData) < 10 {
-		logger.Infof("the MetaData file is empty. FileName: %s.\n", fileName)
+		logger.Infof("the MetaData file is empty. FileName: %s", fileName)
 		// is empty or error!
 		dmd = DocumentMetaData{}
 		dmd.Editors = []string{}
