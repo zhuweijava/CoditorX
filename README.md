@@ -21,7 +21,7 @@ CoditorX is an online text editor in browser for multiple players collaborating.
 
 * efficient protocol: websocket
 * version control: version number, incremental changes/merges
-* permission control: private, shared edit/view)
+* permission control: private, shared edit/view
 
 ## Dependencies
 
