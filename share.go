@@ -176,8 +176,6 @@ func shareHandler(w http.ResponseWriter, r *http.Request) {
 			data["msg"] = err.Error()
 			return
 		}
-		// to flush
-		doc.metaData.save()
 	}
 }
 

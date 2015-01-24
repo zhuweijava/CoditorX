@@ -44,8 +44,17 @@ func fileTreeHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		isShare := false
-		fileRelPath := filepath.Join(user.getWorkspace(), fname)
-		dmd, err := newDocumentMetaData(fileRelPath)
+		var dmd *DocumentMetaData
+		var err error
+		docName := filepath.Join("workspaces", user.Username, "workspace", fname)
+		doc := documentHolder.getDoc(docName)
+		if doc != nil {
+			dmd = doc.metaData
+		} else {
+			fileRelPath := filepath.Join(user.getWorkspace(), fname)
+			dmd, err = newDocumentMetaData(fileRelPath)
+
+		}
 		if err != nil {
 			// TODO how to handler this err?
 			logger.Error(err)
