@@ -1,0 +1,7 @@
+/coditor.exe
+/coditor
+
+.idea
+*.iml
+
+/test/
