@@ -17,6 +17,7 @@
 var menu = {
     init: function () {
         this._initShare();
+        this._initCurrentEditors();
     },
     _initShare: function () {
         $(".menu .ico-share").hover(function () {
@@ -45,12 +46,11 @@ var menu = {
             window.open(urls[key], "_blank", "top=100,left=200,width=648,height=618");
         });
     },
-
     exit: function () {
         var request = newRequest();
         $.ajax({
             type: 'POST',
-            url:  '/logout',
+            url: '/logout',
             data: JSON.stringify(request),
             dataType: "json",
             success: function (data) {
@@ -59,6 +59,20 @@ var menu = {
                 }
             }
         });
+    },
+    _initCurrentEditors: function () {
+        var request = newRequest();
+        request.docName = coditor.workspace + '';
+        $.ajax({
+            type: 'POST',
+            url: '/shareInfo',
+            data: JSON.stringify(request),
+            dataType: "json",
+            success: function (data) {
+                if (!data.succ) {
+                    return false;
+                }
+            }
+        });
     }
-
 };
