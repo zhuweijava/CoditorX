@@ -72,6 +72,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		user := userSession.(*User)
 		model := map[string]interface{}{"session": cSession, "workspace": user.getWorkspace(),
 			"pathSeparator": string(os.PathSeparator)}
+		model["currentuser"] = user
+		model["gravatar"] = toMd5(user.Email)
 
 		toHtml(w, "coditor.html", model, user.Locale)
 
