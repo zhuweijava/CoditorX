@@ -163,7 +163,6 @@ var side = {
             }
         });
 
-        // TODO:
         $("#dialogUnshareConfirm").dialog({
             "modal": true,
             "height": 36,
@@ -175,43 +174,19 @@ var side = {
                 $("#dialogUnshareConfirm > b").html('"FileName"');
             },
             "ok": function () {
-                var request = newWideRequest();
-                request.path = wide.curNode.path;
-
+                var request = newRequest();
+                request["fileName"] = $("#dialogShare .fileName").val();
+                request["editors"] = [];
+                request["isPublic"] = 0;
+                request["viewers"] = [];
                 $.ajax({
                     type: 'POST',
-                    url: config.context + '/file/remove',
+                    url: '/share',
                     data: JSON.stringify(request),
+                    async: false,
                     dataType: "json",
                     success: function (data) {
-                        if (!data.succ) {
-                            $("#dialogRemoveConfirm").dialog("close");
-                            bottomGroup.tabs.setCurrent("notification");
-                            windows.flowBottom();
-                            $(".bottom-window-group .notification").focus();
-                            return false;
-                        }
 
-                        $("#dialogRemoveConfirm").dialog("close");
-                        tree.fileTree.removeNode(wide.curNode);
-
-                        if (!tree.isDir()) {
-                            // 是文件的话，查看 editor 中是否被打开，如打开则移除
-                            for (var i = 0, ii = editors.data.length; i < ii; i++) {
-                                if (editors.data[i].id === wide.curNode.tId) {
-                                    $(".edit-panel .tabs > div[data-index=" + wide.curNode.tId + "]").find(".ico-close").click();
-                                    break;
-                                }
-                            }
-                        } else {
-                            for (var i = 0, ii = editors.data.length; i < ii; i++) {
-                                if (tree.isParents(editors.data[i].id, wide.curNode.tId)) {
-                                    $(".edit-panel .tabs > div[data-index=" + editors.data[i].id + "]").find(".ico-close").click();
-                                    i--;
-                                    ii--;
-                                }
-                            }
-                        }
                     }
                 });
             }
@@ -256,7 +231,7 @@ var side = {
                 "width": 600,
                 "title": 'Share',
                 "afterOpen": function () {
-                    $("#dialogShare .fileName").val(coditor.workspace + "/" + $.trim($("#files li.current").text()));
+                    $("#dialogShare .fileName").val(coditor.workspace + "\\" + $.trim($("#files li.current").text()));
                     $("#dialogShare").find('input[type=checkbox]').prop('checked', false);
                     $("#dialogShare").find('.viewers').show();
                 },
@@ -264,10 +239,9 @@ var side = {
                     var fileName = $("#dialogShare .fileName").val();
                     var editors = $("#dialogShare .editors").val();
                     var isPublic = 0;
-                    if ($("#dialogShare .isPublic").attr("checked") === true) {
+                    if ($("#dialogShare .isPublic").prop("checked")) {
                         isPublic = 1;
                     }
-                    ;
                     var viewers = $("#dialogShare .viewers").val();
                     var request = newRequest();
                     request["fileName"] = fileName;
@@ -284,7 +258,6 @@ var side = {
 
                         }
                     });
-                    return true;
                 }
             });
 

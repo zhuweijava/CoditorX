@@ -2,7 +2,7 @@ function Doc(name, content, version, debug) {
     this.name = name;
     this.content = content;
     this.version = version;
-    this.dmp = new diff_match_patch();
+    //this.dmp = new diff_match_patch();
     if (debug) {
         this.debug = true;
     } else {
