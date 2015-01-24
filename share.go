@@ -2,12 +2,13 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/b3log/wide/util"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/b3log/wide/util"
 )
 
 const (
@@ -217,7 +218,7 @@ func checkAndSave(user string, users []string, share *Share) ([]string, error) {
 	} else {
 		shareList[index] = share
 	}
-	data, err := json.Marshal(shareList)
+	data, err := json.MarshalIndent(shareList, "", "    ")
 	if err != nil {
 		logger.Errorf("share file error, %v.\n", err)
 		return nil, err
