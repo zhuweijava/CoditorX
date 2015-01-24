@@ -171,14 +171,14 @@ var side = {
             "okText": 'Unshare',
             "cancelText": 'Cancel',
             "afterOpen": function () {
-                $("#dialogUnshareConfirm > b").html('"FileName"');
+                $("#dialogUnshareConfirm > b").html('"' + $.trim($('#files li.current').text()) + '"');
             },
             "ok": function () {
                 var request = newRequest();
                 request["fileName"] = $("#dialogShare .fileName").val();
-                request["editors"] = [];
+                request["editors"] = '';
                 request["isPublic"] = 0;
-                request["viewers"] = [];
+                request["viewers"] = '';
                 $.ajax({
                     type: 'POST',
                     url: '/share',
@@ -186,7 +186,12 @@ var side = {
                     async: false,
                     dataType: "json",
                     success: function (data) {
+                        if (!data.succ) {
+                            return false;
+                        }
 
+                        $("#files li.current").data("share", false);
+                        $("#dialogUnshareConfirm").dialog('close');
                     }
                 });
             }
@@ -236,18 +241,21 @@ var side = {
                     $("#dialogShare").find('.viewers').show();
                 },
                 "ok": function () {
-                    var fileName = $("#dialogShare .fileName").val();
-                    var editors = $("#dialogShare .editors").val();
-                    var isPublic = 0;
+                    var fileName = $("#dialogShare .fileName").val(),
+                            editors = $("#dialogShare .editors").val(),
+                            isPublic = 0,
+                            viewers = '';
                     if ($("#dialogShare .isPublic").prop("checked")) {
                         isPublic = 1;
+                        viewers = $("#dialogShare .viewers").val();
                     }
-                    var viewers = $("#dialogShare .viewers").val();
+
                     var request = newRequest();
                     request["fileName"] = fileName;
                     request["editors"] = editors;
                     request["isPublic"] = isPublic;
                     request["viewers"] = viewers;
+
                     $.ajax({
                         type: 'POST',
                         url: '/share',
@@ -255,7 +263,11 @@ var side = {
                         async: false,
                         dataType: "json",
                         success: function (data) {
-
+                            if (!data.succ) {
+                                return false;
+                            }
+                            $("#files li.current").data("share", true);
+                            $("#dialogShare").dialog('close');
                         }
                     });
                 }
@@ -265,7 +277,7 @@ var side = {
                 if ($(this).prop('checked')) {
                     $("#dialogShare").find('.viewers').hide();
                 } else {
-                    $("#dialogShare").find('viewers').show();
+                    $("#dialogShare").find('.viewers').show();
                 }
             });
         });
