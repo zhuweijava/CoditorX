@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"html/template"
 	"math/rand"
 	"net/http"
@@ -11,8 +12,9 @@ import (
 )
 
 func main() {
+	confChannel := flag.String("channel", "", "this will overwrite Wide.Channel if specified")
 
-	loadConf()
+	loadConf(*confChannel)
 	loadLocales()
 	InitDocumentHolder()
 
