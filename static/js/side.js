@@ -390,6 +390,7 @@ var side = {
                     return false;
                 }
                 editor.codemirror.doc.setValue(data.doc.content);
+                editor.currentFileName = fileName;
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 // TODO
