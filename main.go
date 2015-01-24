@@ -26,6 +26,7 @@ func main() {
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/logout", logoutHandler)
 	http.HandleFunc("/share", shareHandler)
+	http.HandleFunc("/shareInfo", getShareInfoHandler)
 
 	http.HandleFunc("/session/ws", coditorSessionWSHandler)
 	http.HandleFunc("/notification/ws", notificationWSHandler)

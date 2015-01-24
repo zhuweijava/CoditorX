@@ -362,6 +362,44 @@ func shareListHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Infof("shares is %v.\n", shareList)
 }
 
+func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
+	data := map[string]interface{}{"succ": true}
+	defer util.RetJSON(w, r, data)
+
+	httpSession, _ := httpSessionStore.Get(r, "coditor-session")
+	userSession := httpSession.Values[user_session]
+	if nil == userSession {
+		data["succ"] = false
+		data["msg"] = "permission denied"
+		return
+	}
+
+	var args map[string]interface{}
+	if err := json.NewDecoder(r.Body).Decode(&args); err != nil {
+		logger.Error(err)
+		data["succ"] = false
+		data["msg"] = "args decode error!"
+		return
+	}
+
+	docName := args["docName"]
+	if docName == nil || len(docName.(string)) == 0 {
+		data["succ"] = false
+		data["msg"] = "docName can not be null!"
+		return
+	}
+	filePath := filepath.Join(conf.Workspace, docName.(string))
+	dmd, err := newDocumentMetaData(filePath)
+	if err != nil {
+		logger.Error(err)
+		data["succ"] = false
+		data["msg"] = err.Error()
+		return
+	}
+
+	data["shareInfo"] = dmd
+}
+
 func getOrInitShareFiles(u *User) ([]*Share, error) {
 	shareFilePath := u.getFileBasePath("share.json")
 	file, err := os.Open(shareFilePath)
