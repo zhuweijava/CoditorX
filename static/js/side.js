@@ -88,6 +88,8 @@ var side = {
                     $(this).addClass('current');
 
                     return;
+                }).dblclick(function () {
+                    side.open(coditor.workspace + '\\' + $.trim($(this).text()));
                 });
             }
         });
@@ -132,8 +134,15 @@ var side = {
                         "left": "38px",
                         "top": (event.target.offsetTop - $shareFiles.parent().scrollTop() + 22) + "px"
                     });
+
+                    $shareFiles.find("li").removeClass("current");
+                    $(this).addClass('current');
+
                     return;
+                }).dblclick(function () {
+                    side.open($.trim($(this).text()));
                 });
+                ;
             }
         });
     },
@@ -367,7 +376,26 @@ var side = {
     rename: function () {
         $("#dialogRenamePrompt").dialog('open');
     },
-    open: function () {
-        OpenDoc(coditor.workspace + $("#files li.current").text());
+    open: function (fileName) {
+        var request = newRequest();
+        request.fileName = fileName;
+
+        $.ajax({
+            async: false,
+            url: "/doc/open",
+            type: "POST",
+            data: JSON.stringify(request),
+            success: function (data) {
+                if (!data.succ) {
+                    return false;
+                }
+                editor.codemirror.doc.setValue(data.doc.content);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                // TODO
+            }
+        });
+
+
     }
 };

@@ -31,7 +31,7 @@
                                 <li onclick="side.new();">
                                     <span class="ico-new font-ico"></span> Create File
                                 </li>
-                                <li onclick="side.open();">
+                                <li onclick="side.open(coditor.workspace + '\\' + $.trim($('#files li.current').text()));">
                                     <span class="ico-open font-ico"></span> Open
                                 </li>
                                 <li onclick="side.remove();">
@@ -53,7 +53,7 @@
                         <div id="shareFiles"></div>
                         <div id="shareFilesMenu" class="frame">
                             <ul>
-                                <li onclick="side.open();">
+                                <li onclick="side.open($.trim($('#shareFiles li.current').text()));">
                                     <span class="ico-open font-ico"></span> Open
                                 </li>
                             </ul>
