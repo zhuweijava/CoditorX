@@ -84,7 +84,7 @@
                     </div>
                     <div class="fn-right">
                         <span class="font-ico ico-share" title="share"></span> &nbsp;
-                        <span onclick="window.open('https://github.com/gophergala/CoditorX/')"
+                        <span onclick="window.open('https://github.com/gophergala/CoditorX')"
                               class="font-ico ico-github"  title="github"></span>&nbsp;
                         <span class="font-ico ico-about" title="help"></span> &nbsp;
                         <img class="gravatar"
@@ -127,7 +127,7 @@
                     var color = {{.session.Color}};
                     var i18n = {{.i18n}};
                     var workspace = {{.workspace}};
-
+                    var pathSeparator = {{.pathSeparator}};
                     function newRequest() {
                     return {
                     sid: coditor.sessionId
