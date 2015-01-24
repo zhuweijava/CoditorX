@@ -4,11 +4,13 @@
         <meta charset="UTF-8">
         <title>{{.i18n.coditor}}</title>
 
-        <link rel="stylesheet" href="{{.conf.StaticServer}}/static/js/lib/codemirror-4.12/codemirror.css">
         <link rel="stylesheet" href="{{.conf.StaticServer}}/static/css/base.css?{{.conf.StaticResourceVersion}}">
         <link rel="stylesheet" href="{{.conf.StaticServer}}/static/css/dialog.css?{{.conf.StaticResourceVersion}}">
         <link rel="stylesheet" href="{{.conf.StaticServer}}/static/css/coditor.css?{{.conf.StaticResourceVersion}}">
         <link rel="stylesheet" href="{{.conf.StaticServer}}/static/css/themes/dark.css?{{.conf.StaticResourceVersion}}">
+
+        <link rel="stylesheet" href="{{.conf.StaticServer}}/static/js/lib/codemirror-4.12/codemirror.css">
+        <link rel="stylesheet" href="{{$.conf.StaticServer}}/static/js/lib/codemirror-4.12/theme/blackboard.css">
     </head>
     <body>
         <div class="content">

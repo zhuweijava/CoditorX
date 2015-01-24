@@ -8,16 +8,23 @@ var editor = {
     _initCM: function () {
         // FIXME: hard coding
         //var docName = coditor.workspace + "/README.txt";
-        var docName = "workspaces/admin/workspace/README.txt";
+        var docName = "workspaces/admin/workspace/README.md";
         var doc = OpenDoc(docName);
 
         var textArea = document.getElementById("editor");
         textArea.value = doc.content;
 
         editor.codemirror = CodeMirror.fromTextArea(textArea, {
-            autofocus: true
+            autofocus: true,
+            lineNumbers: true,
+            theme: "blackboard"
         });
 
+        var mode = CodeMirror.findModeByFileName(docName);
+        if (mode) {
+            editor.codemirror.setOption("mode", mode.mode);
+        }
+        
         var request = newRequest();
         request.docName = docName;
         request.offset = 0;
@@ -39,7 +46,7 @@ var editor = {
         editor.codemirror.on('changes', function (cm, changes) {
             // console.log(cm.getValue());
             console.log(changes);
-            
+
             if (changes && changes[0] && "setValue" === changes[0].origin) {
                 return;
             }
