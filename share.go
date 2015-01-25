@@ -389,6 +389,19 @@ func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	filePath := filepath.Join(conf.Workspace, docName.(string))
+
+	// check file first
+	metaDataFileName := filePath + ".json.coditor"
+	absMetaDataFileName := filepath.Clean(metaDataFileName)
+	file, err := os.Open(absMetaDataFileName)
+	if err != nil {
+		logger.Error(err)
+		data["succ"] = false
+		data["msg"] = err.Error()
+		return
+	}
+	file.Close()
+
 	dmd, err := newDocumentMetaData(filePath)
 	if err != nil {
 		logger.Error(err)
