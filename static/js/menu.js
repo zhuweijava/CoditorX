@@ -26,8 +26,8 @@ var menu = {
 
         $(".share-panel .font-ico").click(function () {
             var key = $(this).attr('class').split('-')[2];
-            var url = "https://github.com/gophergala/CoditorX", 
-            pic = 'http://coditorx.b3log.org/static/images/logo-bg.png';
+            var url = "https://github.com/gophergala/CoditorX",
+                    pic = 'http://coditorx.b3log.org/static/images/logo-bg.png';
             var urls = {};
             urls.email = "mailto:?subject=" + $('title').text()
                     + "&body=" + $('meta[name=description]').attr('content') + ' ' + url;
@@ -64,32 +64,32 @@ var menu = {
         });
     },
     _initCurrentEditors: function () {
-        // TODO maybe here can init later by other way
-        setInterval(function(){
-            var request = newRequest();
-            if (!editor.currentFileName) {
-                return;
-            }
-            
-            var docName = editor.currentFileName;
-            request.docName = docName;
-            $.ajax({
-                type: 'POST',
-                url: '/doc/listCursors',
-                data: JSON.stringify(request),
-                dataType: "json",
-                success: function (data) {
-                    if (!data.succ) {
-                        $('#dialogAlert').dialog("open", data.msg);
-                        return false;
-                    }
-                    for (var i=0;i<data.cursors.length;i++) {
-                        var cursor = data.cursors[i];
-                        var imgStr = '<img class="gravatar" onerror="this.src=\'/static/images/user-thumbnail.png\'" src="https://secure.gravatar.com/avatar/'+cursor.md5Email+'?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png" title="'+cursor.name+'"/>';
-                        $(".fn-left").append(imgStr);
-                    }
+        setInterval(menu.listCursors(), 30000);
+    },
+    listCursors: function () {
+        var request = newRequest();
+        if (!editor.currentFileName) {
+            return;
+        }
+
+        var docName = editor.currentFileName;
+        request.docName = docName;
+        $.ajax({
+            type: 'POST',
+            url: '/doc/listCursors',
+            data: JSON.stringify(request),
+            dataType: "json",
+            success: function (data) {
+                if (!data.succ) {
+                    $('#dialogAlert').dialog("open", data.msg);
+                    return false;
                 }
-            });
-        }, 30000);
+                for (var i = 0; i < data.cursors.length; i++) {
+                    var cursor = data.cursors[i];
+                    var imgStr = '<img class="gravatar" onerror="this.src=\'/static/images/user-thumbnail.png\'" src="https://secure.gravatar.com/avatar/' + cursor.md5Email + '?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png" title="' + cursor.username + '"/>';
+                    $(".fn-left").html(imgStr);
+                }
+            }
+        });
     }
 };

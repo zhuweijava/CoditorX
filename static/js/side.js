@@ -471,5 +471,7 @@ var side = {
                 }
             }
         });
+        
+        menu.listCursors();
     }
 };
