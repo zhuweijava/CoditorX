@@ -389,7 +389,6 @@ func shareListHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data["shares"] = shareList
-	logger.Info("shares is ", shareList)
 }
 
 func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
