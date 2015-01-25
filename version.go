@@ -58,9 +58,6 @@ func openDocHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// FIXME: 设置为 owner 不对
-		metaData.Owner = user.Username
-
 		logger.Debugf("load doc [%s] into memory", docName)
 		doc, err = newDocument(metaData, 10)
 		if err != nil {

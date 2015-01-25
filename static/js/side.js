@@ -140,7 +140,7 @@ var side = {
                     if (index > 0) {
                         fileType = shareFile.docName.sub(index + 1);
                     }
-                    filesHTML += '<li title="' + '/' + shareFile.owner + '/' + shareFile.docName + '" ><span class="ico-file ' + coditor.getClassBySuffix(fileType)
+                    filesHTML += '<li docName="workspaces'+coditor.pathSeparator+shareFile.owner+coditor.pathSeparator+"workspace"+coditor.pathSeparator+shareFile.docName+'" title="' + '/' + shareFile.owner + '/' + shareFile.docName + '" ><span class="ico-file ' + coditor.getClassBySuffix(fileType)
                             + '"></span> ' + '/' + shareFile.owner + '/' + shareFile.docName + '</li>';
                 }
                 $shareFiles.html(filesHTML + '</ul>');
@@ -164,7 +164,7 @@ var side = {
 
                     return;
                 }).dblclick(function () {
-                    side.open($.trim($(this).text()));
+                    side.open($.trim($(this).attr("docName")));
                 });
                 ;
             }
