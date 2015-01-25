@@ -17,7 +17,40 @@
 var side = {
     init: function () {
         new Tabs({
-            id: ".side"
+            id: ".side",
+            clickBefore: function (it) {
+                var $side = $(".side"),
+                        $main = $(".main");
+                if ($(it).hasClass('current')) {
+                    if ($side.width() === 0) {
+                        $side.animate({
+                            width: '20%'
+                        }, function () {
+                            $main.css({
+                                left: "20%",
+                                width: "80%"
+                            });
+                        });
+                    } else {
+                        $side.animate({
+                            width: '0'
+                        });
+                        $main.css({
+                            left: "41px",
+                            width: ($(window).width() - 41) + "px"
+                        });
+                    }
+                } else {
+                    $side.animate({
+                        width: '20%'
+                    }, function () {
+                        $main.css({
+                            left: "20%",
+                            width: "80%"
+                        });
+                    });
+                }
+            }
         });
 
         this._initFileList();
@@ -141,7 +174,7 @@ var side = {
                     if (index > 0) {
                         fileType = shareFile.docName.sub(index + 1);
                     }
-                    filesHTML += '<li shareType="'+shareFile.shareType+'" docName="workspaces'+coditor.pathSeparator+shareFile.owner+coditor.pathSeparator+"workspace"+coditor.pathSeparator+shareFile.docName+'" title="' + '/' + shareFile.owner + '/' + shareFile.docName + '" ><span class="ico-file ' + coditor.getClassBySuffix(fileType)
+                    filesHTML += '<li shareType="' + shareFile.shareType + '" docName="workspaces' + coditor.pathSeparator + shareFile.owner + coditor.pathSeparator + "workspace" + coditor.pathSeparator + shareFile.docName + '" title="' + '/' + shareFile.owner + '/' + shareFile.docName + '" ><span class="ico-file ' + coditor.getClassBySuffix(fileType)
                             + '"></span> ' + '/' + shareFile.owner + '/' + shareFile.docName + '</li>';
                 }
                 $shareFiles.html(filesHTML + '</ul>');
@@ -479,7 +512,7 @@ var side = {
                 }
             }
         });
-        
+
         menu.listCursors();
     }
 };

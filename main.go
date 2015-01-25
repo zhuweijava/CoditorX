@@ -27,11 +27,13 @@ import (
 )
 
 func main() {
+	confIP := flag.String("ip", "", "this will overwrite Wide.IP if specified")
+	confPort := flag.String("port", "", "this will overwrite Wide.Port if specified")
 	confChannel := flag.String("channel", "", "this will overwrite Wide.Channel if specified")
 
 	flag.Parse()
 
-	loadConf(*confChannel)
+	loadConf(*confIP, *confPort, *confChannel)
 	loadLocales()
 	InitDocumentHolder()
 

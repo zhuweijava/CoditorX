@@ -49,7 +49,7 @@ type config struct {
 
 var conf *config
 
-func loadConf(confChannel string) {
+func loadConf(confIP, confPort, confChannel string) {
 	bytes, err := ioutil.ReadFile("conf/coditor.json")
 	if nil != err {
 		logger.Error(err)
@@ -87,6 +87,13 @@ func loadConf(confChannel string) {
 	logger.Debugf("${ip} [%s]", ip)
 
 	conf.IP = strings.Replace(conf.IP, "${ip}", ip, 1)
+	if "" != confIP {
+		conf.IP = confIP
+	}
+
+	if "" != confPort {
+		conf.Port = confPort
+	}
 
 	// Server
 	conf.Server = strings.Replace(conf.Server, "{IP}", conf.IP, 1)
