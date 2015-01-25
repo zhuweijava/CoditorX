@@ -407,6 +407,35 @@ var side = {
         $("#dialogRenamePrompt").dialog('open');
     },
     open: function (fileName) {
+        var $editor = $("#editor");
+        editor.codemirror = CodeMirror.fromTextArea($editor[0], {
+            autofocus: true,
+            lineNumbers: true,
+            theme: "3024-night"
+        });
+
+        var mode = CodeMirror.findModeByFileName(fileName);
+        if (mode) {
+            editor.codemirror.setOption("mode", mode.mode);
+        }
+
+        editor.codemirror.setSize('100%', $(".main").height() - $(".menu").height());
+        editor.codemirror.on('changes', function (cm, changes) {
+            if (changes && changes[0] && "setValue" === changes[0].origin) {
+                return;
+            }
+
+            var request = newRequest();
+            request.cmd = "commit";
+            request.content = cm.getValue();
+            request.docName = docName;
+            request.user = coditor.sessionUsername;
+            request.cursor = cm.getCursor();
+            request.color = coditor.color;
+
+            editor.channel.send(JSON.stringify(request));
+        });
+
         var request = newRequest();
         request.fileName = fileName;
 
@@ -422,12 +451,25 @@ var side = {
                 }
                 editor.codemirror.doc.setValue(data.doc.content);
                 editor.currentFileName = fileName;
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                // TODO
             }
         });
 
+        var request = newRequest();
+        request.docName = fileName;
+        request.offset = 0;
+        request.color = coditor.color;
 
+        $.ajax({
+            async: false,
+            url: "/doc/setCursor",
+            type: "POST",
+            data: JSON.stringify(request),
+            success: function (data) {
+                if (!data.succ) {
+                    $('#dialogAlert').dialog("open", data.msg);
+                    return false;
+                }
+            }
+        });
     }
 };
