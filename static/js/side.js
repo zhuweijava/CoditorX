@@ -79,7 +79,7 @@ var side = {
                         $files = $("#files");
 
                 for (var i = 0, max = data.files.length; i < max; i++) {
-                    filesHTML += '<li data-share="' + data.files[i].isShare
+                    filesHTML += '<li title="' + data.files[i].name + '" data-share="' + data.files[i].isShare
                             + '"><span class="ico-file ' + coditor.getClassBySuffix(data.files[i].type)
                             + '"></span> ' + data.files[i].name + '</li>';
                 }
@@ -140,7 +140,7 @@ var side = {
                     if (index > 0) {
                         fileType = shareFile.docName.sub(index + 1);
                     }
-                    filesHTML += '<li><span class="ico-file ' + coditor.getClassBySuffix(fileType)
+                    filesHTML += '<li title="' + '/' + shareFile.owner + '/' + shareFile.docName + '" ><span class="ico-file ' + coditor.getClassBySuffix(fileType)
                             + '"></span> ' + '/' + shareFile.owner + '/' + shareFile.docName + '</li>';
                 }
                 $shareFiles.html(filesHTML + '</ul>');

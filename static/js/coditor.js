@@ -7,16 +7,20 @@ var coditor = {
     i18n: undefined,
     pathSeparator: undefined,
     init: function () {
+        $(window).resize(function () {
+            editor.codemirror.setSize('100%', $(".main").height() - $(".menu").height());
+        });
+
         // 点击隐藏弹出层
         $("body").bind("mouseup", function (event) {
             $(".frame").hide();
         });
-        
+
         // 禁止鼠标右键菜单
         document.oncontextmenu = function () {
             return false;
         };
-        
+
         this.conf = conf;
         this.sessionId = sessionId;
         this.sessionUsername = sessionUsername;
