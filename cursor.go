@@ -108,5 +108,22 @@ func (doc *Document) getCursors() []*Cursor {
 	doc.cursorLock.Lock()
 	defer doc.cursorLock.Unlock()
 
-	return doc.cursors
+	ret := []*Cursor{}
+	for _, cur := range doc.cursors {
+		if !existsCursor(cur, ret) {
+			ret = append(ret, cur)
+		}
+	}
+
+	return ret
+}
+
+func existsCursor(cursor *Cursor, cursors []*Cursor) bool {
+	for _, exist := range cursors {
+		if cursor.Username == exist.Username {
+			return true
+		}
+	}
+
+	return false
 }

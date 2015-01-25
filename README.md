@@ -6,9 +6,9 @@ CoditorX is an in-browser text editor for multiple players collaborating.
 
 ## Features
 
-* allow user to register, everyone has its own workspace
-* user can share documents to others with edit or view permission
-* real-time synchronize content to the users with the same shared document
+* Allow user to register, everyone has its own workspace
+* User can share documents to others with edit or view permission
+* Real-time synchronize content to the users with the same shared document
 * Markdown preview
 
 ## Architecture
@@ -19,19 +19,34 @@ CoditorX is an in-browser text editor for multiple players collaborating.
 
 ### Key points
 
-* efficient protocol: websocket
-* version control: version number, incremental changes/merges
-* permission control: private, shared edit/view
+* Efficient protocol: websocket
+* Version control: version number, incremental changes/merges
+* Permission control: private, shared edit/view
 
-## Dependencies
+## Setup
 
-### Frontend
+### Build CoditorX for yourself
 
-* [CodeMirror](https://github.com/codemirror/codemirror) (web editor)
-* [jQuery](http://jquery.com) (utilities)
+1. [Download](https://github.com/gophergala/CoditorX/master.zip) source or by `git clone`
+2. Get dependencies with `go get`
+3. Compile wide with `go build` 
 
-### Backend
+### Docker
 
-* [Wide](https://github.com/b3log/wide) (Go utilities, such as logging/filesys)
-* [go-diff](https://github.com/sergi/go-diff) (Google's diff-match-patch library to Go)
-* [Gorilla](https://github.com/gorilla) (Go web lib, such as websocket/session)
+1. Get image: `sudo docker pull 88250/coditorx:latest`
+2. Run: `sudo docker run -p 127.0.0.1:9090:9090 88250/coditorx:latest ./CoditorX -channel=ws://127.0.0.1:9090`
+3. Open browser: http://127.0.0.1:9090
+
+## License
+
+Copyright (c) 2015, B3log Team (http://b3log.org)
+
+Licensed under the [Apache License 2.0](https://github.com/b3log/wide/blob/master/LICENSE).
+
+## Credits
+
+* [CodeMirror](https://github.com/codemirror/codemirror)
+* [Wide](https://github.com/b3log/wide)
+* [go-diff](https://github.com/sergi/go-diff)
+* [Gorilla](https://github.com/gorilla)
+* [Docker](https://docker.com)
