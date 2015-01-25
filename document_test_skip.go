@@ -34,7 +34,7 @@ func Test_document_test(t *testing.T) {
 	content := doc.getContents()
 
 	content = "Hi,Peter."
-	patchs, _, err := doc.merge(content, doc.getVersion())
+	patchs, _, err := doc.merge(content, doc.getVersion(""))
 	if err != nil {
 		t.Error(err)
 		return
@@ -42,7 +42,7 @@ func Test_document_test(t *testing.T) {
 	fmt.Println(patchs)
 
 	content += "change1!"
-	patchs, _, err = doc.merge(content, doc.getVersion())
+	patchs, _, err = doc.merge(content, doc.getVersion(""), "")
 	if err != nil {
 		t.Error(err)
 		return
@@ -50,7 +50,7 @@ func Test_document_test(t *testing.T) {
 	fmt.Println(patchs)
 
 	content = "change2!" + content
-	patchs, _, err = doc.merge(content, doc.getVersion())
+	patchs, _, err = doc.merge(content, doc.getVersion(""), "")
 	if err != nil {
 		t.Error(err)
 		return
@@ -58,11 +58,11 @@ func Test_document_test(t *testing.T) {
 	fmt.Println(patchs)
 
 	var patchStrs []string
-	patchStrs, err = doc.tail(0)
+	patchStrs, err = doc.tail(0, "")
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	fmt.Println(doc.getContents())
+	fmt.Println(doc.getContents(""))
 	fmt.Println(patchStrs)
 }
