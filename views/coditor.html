@@ -27,7 +27,7 @@
                 <div class="tabs-panel">
                     <div data-index="file">
                         <div id="files"></div>
-                        <div id="filesMenu" class="frame">
+                        <div class="frame">
                             <ul>
                                 <li onclick="side.new();">
                                     <span class="ico-new font-ico"></span> Create File
@@ -49,10 +49,17 @@
                                 </li>
                             </ul>
                         </div>
+                        <div id="filesNewMenu" class="frame">
+                            <ul>
+                                <li onclick="side.new();">
+                                    <span class="ico-new font-ico"></span> Create File
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="fn-none" data-index="share">
                         <div id="shareFiles"></div>
-                        <div id="shareFilesMenu" class="frame">
+                        <div class="frame">
                             <ul>
                                 <li onclick="side.open($.trim($('#shareFiles li.current').text()));">
                                     <span class="ico-open font-ico"></span> Open

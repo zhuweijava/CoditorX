@@ -42,6 +42,26 @@ var side = {
         return data;
     },
     _initFileList: function () {
+        $("#files").parent().mouseup(function (event) {
+            event.stopPropagation();
+
+            if (event.button === 0) { // 左键
+                $("#files").next().hide();
+                $("#filesNewMenu").hide();
+                return;
+            }
+
+            // event.button === 2 右键
+            $("#files").next().hide();
+            var $filesNewMenu = $("#filesNewMenu");
+            $filesNewMenu.show().css({
+                "left": event.clientX + "px",
+                "top": (event.clientY) + "px"
+            });
+
+            return false;
+        });
+
         var request = newRequest();
 
         $.ajax({
@@ -61,9 +81,9 @@ var side = {
                 for (var i = 0, max = data.files.length; i < max; i++) {
                     filesHTML += '<li data-share="' + data.files[i].isShare
                             + '"><span class="ico-file ' + coditor.getClassBySuffix(data.files[i].type)
-                            + '"></span> ' + data.files[i].name + '<li>';
+                            + '"></span> ' + data.files[i].name + '</li>';
                 }
-                $files.html(filesHTML + '<ul>');
+                $files.html(filesHTML + '</ul>');
 
                 $files.find("li").mouseup(function (event) {
                     event.stopPropagation();
@@ -74,6 +94,7 @@ var side = {
                     }
 
                     // event.button === 2 右键
+                    $("#filesNewMenu").hide();
                     $files.next().show().css({
                         "left": "38px",
                         "top": (event.target.offsetTop - $files.parent().scrollTop() + 22) + "px"
@@ -89,7 +110,7 @@ var side = {
                     $files.find("li").removeClass("current");
                     $(this).addClass('current');
 
-                    return;
+                    return false;
                 }).dblclick(function () {
                     side.open(coditor.workspace + coditor.pathSeparator + $.trim($(this).text()));
                 });
@@ -120,9 +141,9 @@ var side = {
                         fileType = shareFile.docName.sub(index + 1);
                     }
                     filesHTML += '<li><span class="ico-file ' + coditor.getClassBySuffix(fileType)
-                            + '"></span> ' + '/' + shareFile.owner + '/' + shareFile.docName + '<li>';
+                            + '"></span> ' + '/' + shareFile.owner + '/' + shareFile.docName + '</li>';
                 }
-                $shareFiles.html(filesHTML + '<ul>');
+                $shareFiles.html(filesHTML + '</ul>');
 
                 $shareFiles.find("li").mouseup(function (event) {
                     event.stopPropagation();
