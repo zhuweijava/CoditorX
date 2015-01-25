@@ -43,6 +43,10 @@ $.extend(Tabs.prototype, {
         var _that = this;
 
         obj._$tabs.on("click", "div", function (event) {
+            if (typeof (obj.clickBefore) === "function") {
+                obj.clickBefore(this);
+            }
+            
             if ($(this).hasClass('current')) {
                 return false;
             }
