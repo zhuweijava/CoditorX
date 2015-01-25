@@ -67,7 +67,7 @@ var menu = {
             var request = newRequest();
             // FIXME: hard coding too
             var docName = "workspaces/admin/workspace/README.md";
-            request.docName = docName
+            request.docName = docName;
             $.ajax({
                 type: 'POST',
                 url: '/doc/listCursors',
@@ -79,11 +79,11 @@ var menu = {
                     }
                     for (var i=0;i<data.cursors.length;i++) {
                         var cursor = data.cursors[i];
-                        var imgStr = '<img class="gravatar" onerror="this.src=\'/static/images/user-thumbnail.png\'" src="https://secure.gravatar.com/avatar/'+cursor.md5Email+'?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png" title="'+cursor.name+'"/>'
+                        var imgStr = '<img class="gravatar" onerror="this.src=\'/static/images/user-thumbnail.png\'" src="https://secure.gravatar.com/avatar/'+cursor.md5Email+'?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png" title="'+cursor.name+'"/>';
                         $(".fn-left").append(imgStr);
                     }
                 }
             });
-        }, 1000)
+        }, 1000);
     }
 };
