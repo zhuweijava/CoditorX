@@ -65,7 +65,7 @@ var menu = {
     },
     _initCurrentEditors: function () {
         // TODO maybe here can init later by other way
-        setTimeout(function(){
+        setInterval(function(){
             var request = newRequest();
             if (!editor.currentFileName) {
                 return;
@@ -90,6 +90,6 @@ var menu = {
                     }
                 }
             });
-        }, 1000);
+        }, 30000);
     }
 };
