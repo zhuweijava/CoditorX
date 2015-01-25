@@ -67,6 +67,10 @@ var menu = {
         // TODO maybe here can init later by other way
         setTimeout(function(){
             var request = newRequest();
+            if (!editor.currentFileName) {
+                return;
+            }
+            
             var docName = editor.currentFileName;
             request.docName = docName;
             $.ajax({
