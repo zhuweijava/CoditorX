@@ -295,7 +295,12 @@ func fileDel(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// FIXME: del document if exist.
+	docName := filepath.Join("workspaces", user.Username, "workspace", fileName.(string))
+	doc := documentHolder.getDoc(docName)
+	if doc != nil {
+		documentHolder.delDoc(docName)
+		doc.close(-1)
+	}
 
 	path := filepath.Join(conf.Workspace, user.Username, "workspace", fileName.(string))
 	// del shares!
