@@ -15,7 +15,7 @@ CoditorX is an in-browser text editor for multiple players collaborating.
 
 ### Overview
 
-![architecture](architecture.png)
+![architecture](https://github.com/gophergala/CoditorX/raw/master/architecture.png)
 
 ### Key points
 
