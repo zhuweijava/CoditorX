@@ -140,7 +140,7 @@ var side = {
                     if (index > 0) {
                         fileType = shareFile.docName.sub(index + 1);
                     }
-                    filesHTML += '<li docName="workspaces'+coditor.pathSeparator+shareFile.owner+coditor.pathSeparator+"workspace"+coditor.pathSeparator+shareFile.docName+'" title="' + '/' + shareFile.owner + '/' + shareFile.docName + '" ><span class="ico-file ' + coditor.getClassBySuffix(fileType)
+                    filesHTML += '<li shareType="'+shareFile.shareType+'" docName="workspaces'+coditor.pathSeparator+shareFile.owner+coditor.pathSeparator+"workspace"+coditor.pathSeparator+shareFile.docName+'" title="' + '/' + shareFile.owner + '/' + shareFile.docName + '" ><span class="ico-file ' + coditor.getClassBySuffix(fileType)
                             + '"></span> ' + '/' + shareFile.owner + '/' + shareFile.docName + '</li>';
                 }
                 $shareFiles.html(filesHTML + '</ul>');
@@ -165,6 +165,12 @@ var side = {
                     return;
                 }).dblclick(function () {
                     side.open($.trim($(this).attr("docName")));
+                    var shareType = $(this).attr("shareType");
+                    if (shareType == 0) {
+                        editor.codemirror.setOption("readOnly", true);
+                    } else {
+                        editor.codemirror.setOption("readOnly", false);
+                    }
                 });
                 ;
             }
