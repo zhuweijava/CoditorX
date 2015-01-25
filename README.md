@@ -28,8 +28,7 @@ CoditorX is an in-browser text editor for multiple players collaborating.
 ### Build CoditorX for yourself
 
 1. [Download](https://github.com/gophergala/CoditorX/master.zip) source or by `git clone`
-2. Get dependencies with 
-   * `go get`
+2. Get dependencies with `go get`
 3. Compile wide with `go build` 
 
 ### Docker
