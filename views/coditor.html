@@ -70,8 +70,8 @@
                         <span class="font-ico ico-share" title="share"></span> &nbsp;
                         <span onclick="window.open('https://github.com/gophergala/CoditorX')"
                               class="font-ico ico-github"  title="github"></span>&nbsp;
-                        <span class="font-ico ico-about" title="help"></span> &nbsp;
                         <img class="gravatar"
+                             onerror="this.src=\'/static/images/user-thumbnail.png\'"
                              src="https://secure.gravatar.com/avatar/{{.gravatar}}?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png"
                              title="{{.currentuser.Username}}">
                         <span class="font-ico ico-signout" title="sign out" onclick="menu.exit();">  </span>
