@@ -64,7 +64,8 @@ var menu = {
         });
     },
     _initCurrentEditors: function () {
-        setInterval(menu.listCursors(), 30000);
+        setInterval(menu.listCursors, 30000);
+        menu.listCursors()
     },
     listCursors: function () {
         var request = newRequest();
@@ -84,11 +85,12 @@ var menu = {
                     $('#dialogAlert').dialog("open", data.msg);
                     return false;
                 }
+                var imgStr = "";
                 for (var i = 0; i < data.cursors.length; i++) {
                     var cursor = data.cursors[i];
-                    var imgStr = '<img class="gravatar" onerror="this.src=\'/static/images/user-thumbnail.png\'" src="https://secure.gravatar.com/avatar/' + cursor.md5Email + '?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png" title="' + cursor.username + '"/>';
-                    $(".fn-left").html(imgStr);
+                    imgStr += '<img class="gravatar" onerror="this.src=\'/static/images/user-thumbnail.png\'" src="https://secure.gravatar.com/avatar/' + cursor.md5Email + '?s=17&d=https://symphony.b3log.org/images/user-thumbnail.png" title="' + cursor.username + '"/>';
                 }
+                $(".fn-left").html(imgStr);
             }
         });
     }
