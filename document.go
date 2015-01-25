@@ -376,6 +376,8 @@ func (doc *Document) flush() {
 // to close document.
 func (doc *Document) close(stopFlag int) {
 	doc.flushTicker.Stop()
+	doc.binLog.close()
+	doc.docFile.Close()
 	if stopFlag > 0 {
 		doc.flush()
 	}
