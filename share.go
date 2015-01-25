@@ -23,6 +23,9 @@ import (
 	"strings"
 
 	"github.com/b3log/wide/util"
+	"github.com/gorilla/mux"
+	"github.com/russross/blackfriday"
+	"html/template"
 )
 
 const (
@@ -440,6 +443,52 @@ func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data["shareInfo"] = dmd
+}
+
+func publicViewHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+
+	owner := vars["owner"]
+	fileName := vars["fileName"]
+
+	model := make(map[string]interface{}, 0)
+	model["owner"] = owner
+	model["fileName"] = fileName
+
+	docName := filepath.Join(conf.Workspace, owner, "workspace", fileName)
+	metaDataFileName := docName + ".json.coditor"
+	absMetaDataFileName := filepath.Clean(metaDataFileName)
+	file, err := os.Open(absMetaDataFileName)
+	if err != nil {
+		logger.Error(err)
+		toHtml(w, "public_view_error.html", model, "")
+		return
+	}
+	file.Close()
+
+	metaData, err := newDocumentMetaData(docName)
+	if err != nil {
+		logger.Error(err)
+		toHtml(w, "public_view_error.html", model, "")
+		return
+	}
+
+	if metaData.IsPublic != 1 {
+		logger.Error(err)
+		toHtml(w, "public_view_error.html", model, "")
+		return
+	} else {
+		contentBytes, err := ioutil.ReadFile(docName)
+		if err != nil {
+			logger.Error(err)
+			toHtml(w, "public_view_error.html", model, "")
+			return
+		}
+		contentBytes = blackfriday.MarkdownCommon(contentBytes)
+		content := string(contentBytes)
+		model["content"] = template.HTML(content)
+		toHtml(w, "public_view.html", model, "")
+	}
 }
 
 func getOrInitShareFiles(u *User) ([]*Share, error) {

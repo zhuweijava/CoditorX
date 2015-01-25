@@ -17,6 +17,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"github.com/gorilla/mux"
 	"html/template"
 	"math/rand"
 	"net/http"
@@ -40,31 +41,38 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	serveSingle("/favicon.ico", "./static/favicon.ico")
 
-	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/signup", signUpHandler)
-	http.HandleFunc("/login", loginHandler)
-	http.HandleFunc("/logout", logoutHandler)
-	http.HandleFunc("/share", shareHandler)
-	http.HandleFunc("/shareInfo", getShareInfoHandler)
+	r := mux.NewRouter()
 
-	http.HandleFunc("/session/ws", coditorSessionWSHandler)
-	http.HandleFunc("/notification/ws", notificationWSHandler)
-	http.HandleFunc("/editor/ws", editorWSHandler)
+	r.HandleFunc("/", indexHandler)
+	r.HandleFunc("/signup", signUpHandler)
+	r.HandleFunc("/login", loginHandler)
+	r.HandleFunc("/logout", logoutHandler)
+	r.HandleFunc("/share", shareHandler)
+	r.HandleFunc("/shareInfo", getShareInfoHandler)
 
-	http.HandleFunc("/file/new", fileNew)
-	http.HandleFunc("/file/del", fileDel)
-	http.HandleFunc("/file/rename", fileRename)
+	r.HandleFunc("/session/ws", coditorSessionWSHandler)
+	r.HandleFunc("/notification/ws", notificationWSHandler)
+	r.HandleFunc("/editor/ws", editorWSHandler)
 
-	http.HandleFunc("/files", fileTreeHandler)
-	http.HandleFunc("/shares", shareListHandler)
+	r.HandleFunc("/file/new", fileNew)
+	r.HandleFunc("/file/del", fileDel)
+	r.HandleFunc("/file/rename", fileRename)
 
-	http.HandleFunc("/doc/open", openDocHandler)
-	http.HandleFunc("/doc/listCursors", listCursorsHandler)
-	http.HandleFunc("/doc/setCursor", setCursorHandler)
-	http.HandleFunc("/doc/commit", commitDocHandler)
-	http.HandleFunc("/doc/fetch", fetchDocHandler)
+	r.HandleFunc("/files", fileTreeHandler)
+	r.HandleFunc("/shares", shareListHandler)
+
+	r.HandleFunc("/doc/open", openDocHandler)
+	r.HandleFunc("/doc/listCursors", listCursorsHandler)
+	r.HandleFunc("/doc/setCursor", setCursorHandler)
+	r.HandleFunc("/doc/commit", commitDocHandler)
+	r.HandleFunc("/doc/fetch", fetchDocHandler)
 	// TODO: 可能不需要
-	http.HandleFunc("/doc/getHead", getHeadDocHandler)
+	r.HandleFunc("/doc/getHead", getHeadDocHandler)
+
+	// public view
+	r.HandleFunc("/{owner}/doc/{fileName}", publicViewHandler)
+
+	http.Handle("/", r)
 
 	logger.Info(conf.Server)
 
