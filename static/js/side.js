@@ -475,6 +475,8 @@ var side = {
             request.color = coditor.color;
 
             editor.channel.send(JSON.stringify(request));
+            
+            $('.preview').html(markdown.toHTML(editor.codemirror.getValue()));
         });
 
         var request = newRequest();
