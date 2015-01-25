@@ -26,6 +26,8 @@ function OpenDoc(fileName) {
             if (data.succ) {
                 var d = data.doc;
                 doc = new Doc(fileName, d.content, d.version);
+            } else {
+                $('#dialogAlert').dialog("open", data.msg);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -57,6 +59,8 @@ Doc.prototype.commit = function () {
             result = data;
             if (data.succ) {
                 doc.version = data.output.version;
+            } else {
+                $('#dialogAlert').dialog("open", data.msg);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -64,7 +68,7 @@ Doc.prototype.commit = function () {
         }
     });
     return result;
-}
+};
 
 // pull from server.
 Doc.prototype.pull = function () {
@@ -74,7 +78,7 @@ Doc.prototype.pull = function () {
     var file = {
         name: doc.name,
         version: doc.version
-    }
+    };
     request.file = file;
 
     $.ajax({
@@ -85,7 +89,7 @@ Doc.prototype.pull = function () {
         success: function (data) {
             result = data;
             if (data.succ) {
-                var length = data.patchss.length
+                var length = data.patchss.length;
                 for (var i = 0; i < length; i++) {
                     var patchsStr = data.patchss[i];
                     var patches = doc.dmp.patch_fromText(patchsStr);
@@ -100,6 +104,8 @@ Doc.prototype.pull = function () {
                     doc.content = outputs[0];
                 }
                 doc.version = data.version;
+            } else {
+                $('#dialogAlert').dialog("open", data.msg);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -107,9 +113,9 @@ Doc.prototype.pull = function () {
         }
     });
     return result;
-}
+};
 
 // set content.
 Doc.prototype.setContent = function (content) {
     this.content = content;
-}
+};
