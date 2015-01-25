@@ -1,7 +1,9 @@
 {
     "owner": "admin",
     "editors": [],
-    "viewers": [],
+    "viewers": [
+        "user1"
+    ],
     "isPublic": 0,
     "version": 0
 }
