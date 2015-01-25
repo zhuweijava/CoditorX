@@ -113,6 +113,7 @@ var side = {
                     return false;
                 }).dblclick(function () {
                     side.open(coditor.workspace + coditor.pathSeparator + $.trim($(this).text()));
+                    editor.codemirror.setOption("readOnly", false);
                 });
             }
         });
