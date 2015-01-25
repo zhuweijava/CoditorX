@@ -51,6 +51,7 @@ var side = {
             data: JSON.stringify(request),
             success: function (data) {
                 if (!data.succ) {
+                    $('#dialogAlert').dialog("open", data.msg);
                     return false;
                 }
 
@@ -104,6 +105,7 @@ var side = {
             data: JSON.stringify(request),
             success: function (data) {
                 if (!data.succ) {
+                    $('#dialogAlert').dialog("open", data.msg);
                     return false;
                 }
 
@@ -150,8 +152,8 @@ var side = {
     _initDialog: function () {
         $("#dialogAlert").dialog({
             "modal": true,
-            "height": 36,
-            "width": 260,
+            "height": 160,
+            "width": 310,
             "title": '提示',
             "hiddenOk": true,
             "cancelText": '确认',
@@ -197,6 +199,7 @@ var side = {
                     dataType: "json",
                     success: function (data) {
                         if (!data.succ) {
+                            $('#dialogAlert').dialog("open", data.msg);
                             return false;
                         }
 
@@ -229,6 +232,7 @@ var side = {
                     dataType: "json",
                     success: function (data) {
                         if (!data.succ) {
+                            $('#dialogAlert').dialog("open", data.msg);
                             return false;
                         }
 
@@ -274,6 +278,7 @@ var side = {
                         dataType: "json",
                         success: function (data) {
                             if (!data.succ) {
+                                $('#dialogAlert').dialog("open", data.msg);
                                 return false;
                             }
                             $("#files li.current").data("share", true);
@@ -317,6 +322,7 @@ var side = {
                     dataType: "json",
                     success: function (data) {
                         if (!data.succ) {
+                            $('#dialogAlert').dialog("open", data.msg);
                             return false;
                         }
 
@@ -355,6 +361,8 @@ var side = {
                         if (data.succ) {
                             side._initFileList();
                             isOk = true;
+                        } else {
+                            $('#dialogAlert').dialog("open", data.msg);
                         }
                     }
                 });
@@ -388,6 +396,7 @@ var side = {
             data: JSON.stringify(request),
             success: function (data) {
                 if (!data.succ) {
+                    $('#dialogAlert').dialog("open", data.msg);
                     return false;
                 }
                 editor.codemirror.doc.setValue(data.doc.content);

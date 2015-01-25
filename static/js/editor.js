@@ -40,6 +40,7 @@ var editor = {
             data: JSON.stringify(request),
             success: function (data) {
                 if (!data.succ) {
+                    $('#dialogAlert').dialog("open", data.msg);
                     return false;
                 }
             }

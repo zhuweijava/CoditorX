@@ -57,6 +57,8 @@ var menu = {
             success: function (data) {
                 if (data.succ) {
                     window.location.href = "/";
+                } else {
+                    $('#dialogAlert').dialog("open", data.msg);
                 }
             }
         });
@@ -75,6 +77,7 @@ var menu = {
                 dataType: "json",
                 success: function (data) {
                     if (!data.succ) {
+                        $('#dialogAlert').dialog("open", data.msg);
                         return false;
                     }
                     for (var i=0;i<data.cursors.length;i++) {
