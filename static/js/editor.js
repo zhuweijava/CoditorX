@@ -20,7 +20,7 @@ var editor = {
         editor.codemirror = CodeMirror.fromTextArea($editor[0], {
             autofocus: true,
             lineNumbers: true,
-            theme: "blackboard"
+            theme: "3024-night"
         });
 
         var mode = CodeMirror.findModeByFileName(docName);
