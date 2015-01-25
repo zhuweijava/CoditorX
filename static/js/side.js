@@ -282,7 +282,8 @@ var side = {
                             viewers = '';
                     if ($("#dialogShare .isPublic").prop("checked")) {
                         isPublic = 1;
-                        viewers = $("#dialogShare .viewers").val();
+                    } else {
+                        viewers = $("#dialogShare .viewersInp").val();
                     }
 
                     var request = newRequest();
