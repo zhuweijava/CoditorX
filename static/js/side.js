@@ -40,6 +40,15 @@ var side = {
                             width: ($(window).width() - 41) + "px"
                         });
                     }
+                } else {
+                    $side.animate({
+                        width: '20%'
+                    }, function () {
+                        $main.css({
+                            left: "20%",
+                            width: "80%"
+                        });
+                    });
                 }
             }
         });
