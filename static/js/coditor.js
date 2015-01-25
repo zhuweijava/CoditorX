@@ -23,9 +23,13 @@ var coditor = {
     i18n: undefined,
     pathSeparator: undefined,
     init: function () {
+        $(".preview").height($(".main").height() - $(".menu").height());
+
         $(window).resize(function () {
             if (editor.codemirror) {
-                editor.codemirror.setSize('100%', $(".main").height() - $(".menu").height());
+                var height = $(".main").height() - $(".menu").height();
+                editor.codemirror.setSize('50%', height);
+                $(".preview").height(height);
             }
         });
 

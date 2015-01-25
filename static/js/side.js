@@ -460,7 +460,7 @@ var side = {
             editor.codemirror.setOption("mode", mode.mode);
         }
 
-        editor.codemirror.setSize('100%', $(".main").height() - $(".menu").height());
+        editor.codemirror.setSize('50%', $(".main").height() - $(".menu").height());
         editor.codemirror.on('changes', function (cm, changes) {
             if (changes && changes[0] && "setValue" === changes[0].origin) {
                 return;
@@ -492,6 +492,8 @@ var side = {
                 }
                 editor.codemirror.doc.setValue(data.doc.content);
                 editor.currentFileName = fileName;
+
+                $('.preview').html(markdown.toHTML(data.doc.content));
             }
         });
 

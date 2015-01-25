@@ -412,7 +412,15 @@
 
 #editor {
     height: 100%;
-    width: 100%;
+    width: 50%;
     background-color: #252525;
     border: 1px solid #303130;
+}
+
+.preview {
+    width: 50%;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    overflow: auto;
 }
