@@ -176,6 +176,12 @@ func fileNew(w http.ResponseWriter, r *http.Request) {
 	file.Close()
 }
 
+// file rename
+// file rename steps:
+// 1 close and flush doc
+// 2 rename files
+// 3 handle the shares
+// 4 reopen the doc
 func fileRename(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{"succ": true}
 	defer util.RetJSON(w, r, data)
@@ -212,6 +218,16 @@ func fileRename(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	oldDocName := filepath.Join("workspaces", user.Username, "workspace", oldName.(string))
+	newDocName := filepath.Join("workspaces", user.Username, "workspace", newName.(string))
+
+	// del doc in memory
+	doc := documentHolder.getDoc(oldDocName)
+	if doc != nil {
+		doc.close(1)
+		documentHolder.delDoc(oldDocName)
+	}
+
 	// create file
 	oldPath := filepath.Join(conf.Workspace, user.Username, "workspace", oldName.(string))
 	newPath := filepath.Join(conf.Workspace, user.Username, "workspace", newName.(string))
@@ -243,7 +259,6 @@ func fileRename(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// FIXME: change document name if exist.
 	dmd, err := newDocumentMetaData(newPath)
 	if err != nil {
 		logger.Error(err)
@@ -264,8 +279,33 @@ func fileRename(w http.ResponseWriter, r *http.Request) {
 		// just log err!
 		logger.Error(err)
 	}
+
+	// reopen
+	if doc != nil {
+		metaData, err := newDocumentMetaData(newDocName)
+		if err != nil {
+			data["succ"] = false
+			data["msg"] = "reopen document error!"
+			return
+		}
+
+		logger.Debugf("load doc [%s] into memory", newDocName)
+		doc, err = newDocument(metaData, 10)
+		if err != nil {
+			data["succ"] = false
+			data["msg"] = err.Error()
+			return
+		}
+
+		documentHolder.setDoc(newDocName, doc)
+	}
 }
 
+// file del
+// file del step:
+// 1 del doc
+// 2 del shares
+// 3 del files
 func fileDel(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{"succ": true}
 	defer util.RetJSON(w, r, data)

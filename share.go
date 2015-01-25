@@ -388,7 +388,7 @@ func getShareInfoHandler(w http.ResponseWriter, r *http.Request) {
 		data["msg"] = "docName can not be null!"
 		return
 	}
-	filePath := filepath.Join(conf.Workspace, docName.(string))
+	filePath := docName.(string)
 
 	// check file first
 	metaDataFileName := filePath + ".json.coditor"
