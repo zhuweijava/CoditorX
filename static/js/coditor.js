@@ -8,7 +8,9 @@ var coditor = {
     pathSeparator: undefined,
     init: function () {
         $(window).resize(function () {
-            editor.codemirror.setSize('100%', $(".main").height() - $(".menu").height());
+            if (editor.codemirror) {
+                editor.codemirror.setSize('100%', $(".main").height() - $(".menu").height());
+            }
         });
 
         // 点击隐藏弹出层
