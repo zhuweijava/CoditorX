@@ -63,11 +63,23 @@ func shareHandler(w http.ResponseWriter, r *http.Request) {
 			isPublic = int(args["isPublic"].(float64))
 		}
 
+		docOpen := true
+
 		doc := documentHolder.getDoc(fileName)
 		if doc == nil {
-			data["succ"] = false
-			data["msg"] = "File Not exist!"
-			return
+			docOpen = false
+			metaData, err := newDocumentMetaData(fileName)
+			if err != nil {
+				data["succ"] = false
+				data["msg"] = "open document error!"
+				return
+			}
+			doc, err = newDocument(metaData, 10)
+			if err != nil {
+				data["succ"] = false
+				data["msg"] = err.Error()
+				return
+			}
 		}
 		// get old editors and old viewers.To del the invalids.
 		// check permission
@@ -175,6 +187,10 @@ func shareHandler(w http.ResponseWriter, r *http.Request) {
 			data["succ"] = false
 			data["msg"] = err.Error()
 			return
+		}
+
+		if !docOpen {
+			doc.close(1)
 		}
 	}
 }
