@@ -359,6 +359,20 @@ func (doc *Document) getViewers(userName string) ([]string, error) {
 	return doc.metaData.Viewers, nil
 }
 
+func (doc *Document) setContent(content, userName string) error {
+	doc.lock.RLock()
+	defer func() {
+		doc.lock.RUnlock()
+	}()
+
+	if !doc.metaData.checkEditAble(userName) {
+		return errors.New(userName + " can not edit this document.")
+	}
+
+	doc.content = content
+	return nil
+}
+
 func (doc *Document) flush() {
 	contentBytes := []byte(doc.content)
 	absDocFileName := filepath.Clean(doc.metaData.fileName)

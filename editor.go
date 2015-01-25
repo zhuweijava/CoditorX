@@ -41,6 +41,8 @@ func editorWSHandler(w http.ResponseWriter, r *http.Request) {
 
 	input := map[string]interface{}{}
 
+	userName := coditorSessions.get(sid).Username
+
 	for {
 		if err := wsChan.ReadJSON(&input); err != nil {
 			return
@@ -52,6 +54,12 @@ func editorWSHandler(w http.ResponseWriter, r *http.Request) {
 		docName = filepath.Clean(docName)
 
 		doc := documentHolder.getDoc(docName)
+		err := doc.setContent(input["content"].(string), userName)
+		if err != nil {
+			// TODO maybe should send error here
+			logger.Errorf("set document error %v", err)
+			continue
+		}
 
 		for _, cursor := range doc.cursors {
 			if cursor.Sid == sid { // skip the current session itself
