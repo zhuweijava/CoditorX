@@ -409,3 +409,10 @@
     transform:rotate(360deg);
 }
 /* end menu */
+
+#editor {
+    height: 100%;
+    width: 100%;
+    background-color: #252525;
+    border: 1px solid #303130;
+}
